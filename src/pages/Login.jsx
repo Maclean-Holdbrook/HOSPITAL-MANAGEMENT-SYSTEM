@@ -27,7 +27,7 @@ const Login = () => {
             const userRole = data.user?.user_metadata?.role;
             if (userRole !== 'doctor') {
                 await supabase.auth.signOut();
-                throw new Error('Access denied. This portal is for doctors/admins only.');
+                throw new Error('Access denied. This portal is for doctors only.');
             }
 
             navigate('/admin');
@@ -158,14 +158,6 @@ const Login = () => {
                     </button>
                 </form>
 
-                <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-                        Don't have an account?{' '}
-                        <a href="#" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: '500' }}>
-                            Contact Admin
-                        </a>
-                    </p>
-                </div>
             </div>
 
             <Modal
