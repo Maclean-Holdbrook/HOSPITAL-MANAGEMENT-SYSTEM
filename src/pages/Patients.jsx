@@ -258,65 +258,67 @@ const Patients = () => {
                 <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' }}>Loading patients...</div>
             ) : (
                 <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                        <thead style={{ backgroundColor: 'var(--bg-dark)', borderBottom: '1px solid var(--border)' }}>
-                            <tr>
-                                <th style={{ padding: '1rem', color: 'var(--text-secondary)' }}>Name</th>
-                                <th style={{ padding: '1rem', color: 'var(--text-secondary)' }}>Age</th>
-                                <th style={{ padding: '1rem', color: 'var(--text-secondary)' }}>Condition</th>
-                                <th style={{ padding: '1rem', color: 'var(--text-secondary)' }}>Status</th>
-                                <th style={{ padding: '1rem', color: 'var(--text-secondary)' }}>Contact</th>
-                                <th style={{ padding: '1rem', color: 'var(--text-secondary)' }}>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {patients.length === 0 ? (
-                                <tr><td colSpan="6" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>No patients found. Add one to get started.</td></tr>
-                            ) : (
-                                patients.map(patient => (
-                                    <tr key={patient.id} style={{ borderBottom: '1px solid var(--border)' }}>
-                                        <td style={{ padding: '1rem' }}>
-                                            <div>{patient.name}</div>
-                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{patient.email}</div>
-                                        </td>
-                                        <td style={{ padding: '1rem' }}>{patient.age}</td>
-                                        <td style={{ padding: '1rem' }}>{patient.condition}</td>
-                                        <td style={{ padding: '1rem' }}>
-                                            <span style={{
-                                                padding: '0.25rem 0.5rem',
-                                                borderRadius: '999px',
-                                                fontSize: '0.75rem',
-                                                backgroundColor: patient.status === 'Admitted' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(37, 99, 235, 0.2)',
-                                                color: patient.status === 'Admitted' ? '#10b981' : '#60a5fa'
-                                            }}>
-                                                {patient.status}
-                                            </span>
-                                        </td>
-                                        <td style={{ padding: '1rem', color: 'var(--text-secondary)' }}>{patient.contact_number}</td>
-                                        <td style={{ padding: '1rem' }}>
-                                            <button
-                                                onClick={() => handleUploadClick(patient)}
-                                                style={{
-                                                    background: 'none',
-                                                    border: '1px solid var(--border)',
-                                                    borderRadius: '0.5rem',
-                                                    padding: '0.5rem',
-                                                    cursor: 'pointer',
-                                                    color: 'var(--primary)',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    gap: '0.5rem'
-                                                }}
-                                                title="Upload Report"
-                                            >
-                                                <Upload size={16} /> Upload
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+                    <div className="table-container">
+                        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                            <thead style={{ backgroundColor: 'var(--bg-dark)', borderBottom: '1px solid var(--border)' }}>
+                                <tr>
+                                    <th style={{ padding: '1rem', color: 'var(--text-secondary)' }}>Name</th>
+                                    <th style={{ padding: '1rem', color: 'var(--text-secondary)' }}>Age</th>
+                                    <th style={{ padding: '1rem', color: 'var(--text-secondary)' }}>Condition</th>
+                                    <th style={{ padding: '1rem', color: 'var(--text-secondary)' }}>Status</th>
+                                    <th style={{ padding: '1rem', color: 'var(--text-secondary)' }}>Contact</th>
+                                    <th style={{ padding: '1rem', color: 'var(--text-secondary)' }}>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {patients.length === 0 ? (
+                                    <tr><td colSpan="6" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>No patients found. Add one to get started.</td></tr>
+                                ) : (
+                                    patients.map(patient => (
+                                        <tr key={patient.id} style={{ borderBottom: '1px solid var(--border)' }}>
+                                            <td style={{ padding: '1rem' }}>
+                                                <div>{patient.name}</div>
+                                                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{patient.email}</div>
+                                            </td>
+                                            <td style={{ padding: '1rem' }}>{patient.age}</td>
+                                            <td style={{ padding: '1rem' }}>{patient.condition}</td>
+                                            <td style={{ padding: '1rem' }}>
+                                                <span style={{
+                                                    padding: '0.25rem 0.5rem',
+                                                    borderRadius: '999px',
+                                                    fontSize: '0.75rem',
+                                                    backgroundColor: patient.status === 'Admitted' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(37, 99, 235, 0.2)',
+                                                    color: patient.status === 'Admitted' ? '#10b981' : '#60a5fa'
+                                                }}>
+                                                    {patient.status}
+                                                </span>
+                                            </td>
+                                            <td style={{ padding: '1rem', color: 'var(--text-secondary)' }}>{patient.contact_number}</td>
+                                            <td style={{ padding: '1rem' }}>
+                                                <button
+                                                    onClick={() => handleUploadClick(patient)}
+                                                    style={{
+                                                        background: 'none',
+                                                        border: '1px solid var(--border)',
+                                                        borderRadius: '0.5rem',
+                                                        padding: '0.5rem',
+                                                        cursor: 'pointer',
+                                                        color: 'var(--primary)',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: '0.5rem'
+                                                    }}
+                                                    title="Upload Report"
+                                                >
+                                                    <Upload size={16} /> Upload
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             )}
 
