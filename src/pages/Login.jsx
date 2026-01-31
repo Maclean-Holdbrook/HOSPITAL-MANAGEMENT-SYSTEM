@@ -158,6 +158,12 @@ const Login = () => {
                     </button>
                 </form>
 
+                <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+                    <a href="/" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '0.875rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                        &larr; Back to Home
+                    </a>
+                </div>
+
             </div>
 
             <Modal

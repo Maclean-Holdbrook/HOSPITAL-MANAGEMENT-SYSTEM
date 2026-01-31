@@ -162,6 +162,11 @@ const PatientLogin = () => {
                     <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
                         Not registered? <a href="/book" style={{ color: '#10b981', textDecoration: 'none', fontWeight: '500' }}>Book an appointment</a> to get started.
                     </p>
+                    <div style={{ marginTop: '1rem' }}>
+                        <a href="/" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontSize: '0.875rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                            &larr; Back to Home
+                        </a>
+                    </div>
                 </div>
             </div>
 
