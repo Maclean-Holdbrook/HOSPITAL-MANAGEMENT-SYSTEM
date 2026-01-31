@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, Plus, X } from 'lucide-react';
+import { supabase } from '../supabase';
 
 const Appointments = () => {
     const [appointments, setAppointments] = useState([]);
@@ -8,29 +9,54 @@ const Appointments = () => {
     // Removed isModalOpen and formData state as doctors don't book appointments manually here
 
     useEffect(() => {
-        fetchAppointments();
-        fetchPatients();
+        fetchData();
     }, []);
 
-    const fetchAppointments = async () => {
+    const fetchData = async () => {
         try {
-            const res = await fetch('/api/appointments');
-            const data = await res.json();
-            if (Array.isArray(data)) setAppointments(data);
+            const { data: { user } } = await supabase.auth.getUser();
+
+            // Fetch all data in parallel
+            const [appointmentsRes, doctorsRes, patientsRes] = await Promise.all([
+                fetch('/api/appointments'),
+                fetch('/api/doctors'),
+                fetch('/api/patients')
+            ]);
+
+            const appointmentsData = await appointmentsRes.json();
+            const doctorsData = await doctorsRes.json();
+            const patientsData = await patientsRes.json();
+
+            if (Array.isArray(patientsData)) setPatients(patientsData);
+
+            if (Array.isArray(appointmentsData)) {
+                // Filter logic
+                if (user && user.user_metadata?.role === 'doctor') {
+                    // 1. Try to find doctor by email in doctors list
+                    const foundDoctor = Array.isArray(doctorsData)
+                        ? doctorsData.find(d => d.email === user.email)
+                        : null;
+
+                    // 2. Determine name to filter by
+                    const filterName = foundDoctor ? foundDoctor.name : (user.user_metadata?.name || '');
+
+                    if (filterName) {
+                        const myAppointments = appointmentsData.filter(appt =>
+                            appt.doctor_name && appt.doctor_name.toLowerCase().includes(filterName.toLowerCase())
+                        );
+                        setAppointments(myAppointments);
+                    } else {
+                        // Fallback: If we can't identify the doctor, show empty or all? (Showing all for now for safety)
+                        setAppointments(appointmentsData);
+                    }
+                } else {
+                    setAppointments(appointmentsData);
+                }
+            }
         } catch (error) {
-            console.error('Error fetching appointments:', error);
+            console.error('Error fetching data:', error);
         } finally {
             setLoading(false);
-        }
-    };
-
-    const fetchPatients = async () => {
-        try {
-            const res = await fetch('/api/patients');
-            const data = await res.json();
-            if (Array.isArray(data)) setPatients(data);
-        } catch (error) {
-            console.error('Error fetching patients:', error);
         }
     };
 
