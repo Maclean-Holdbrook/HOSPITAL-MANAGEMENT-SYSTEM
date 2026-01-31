@@ -14,7 +14,7 @@ const Appointments = () => {
 
     const fetchAppointments = async () => {
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/appointments`);
+            const res = await fetch('/api/appointments');
             const data = await res.json();
             if (Array.isArray(data)) setAppointments(data);
         } catch (error) {
@@ -26,7 +26,7 @@ const Appointments = () => {
 
     const fetchPatients = async () => {
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/patients`);
+            const res = await fetch('/api/patients');
             const data = await res.json();
             if (Array.isArray(data)) setPatients(data);
         } catch (error) {

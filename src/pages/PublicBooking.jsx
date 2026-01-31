@@ -59,7 +59,7 @@ const PublicBooking = () => {
         const selectedDoctor = doctors.find(d => d.id === formData.doctor_id);
 
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/public/book`, {
+            const res = await fetch('/api/public/book', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

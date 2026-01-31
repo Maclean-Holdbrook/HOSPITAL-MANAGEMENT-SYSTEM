@@ -2,7 +2,7 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "https://hospital-management-system-backend-one.vercel.app/api/$1"
+            "destination": "https://hospital-management-system-backend-red.vercel.app/api/$1"
         },
         {
             "source": "/(.*)",
