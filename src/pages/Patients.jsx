@@ -55,9 +55,24 @@ const Patients = () => {
                 fetchPatients();
                 setIsModalOpen(false);
                 setFormData({ name: '', age: '', condition: '', status: 'Outpatient', contact_number: '', email: '' });
+                setModal({
+                    isOpen: true,
+                    type: 'success',
+                    title: 'Success',
+                    message: 'Patient added successfully!'
+                });
+            } else {
+                const errorData = await res.json();
+                throw new Error(errorData.error || 'Failed to add patient');
             }
         } catch (error) {
             console.error('Error adding patient:', error);
+            setModal({
+                isOpen: true,
+                type: 'error',
+                title: 'Error',
+                message: error.message
+            });
         }
     };
 
