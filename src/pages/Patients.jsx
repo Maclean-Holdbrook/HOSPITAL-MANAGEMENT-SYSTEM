@@ -176,7 +176,7 @@ const Patients = () => {
                             </button>
                         </div>
 
-                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                             <input
                                 placeholder="Full Name"
                                 value={formData.name}
