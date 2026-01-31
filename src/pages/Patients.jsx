@@ -69,7 +69,10 @@ const Patients = () => {
                 });
             } else {
                 const errorData = await res.json();
-                throw new Error(errorData.error || 'Failed to add patient');
+                let errorMessage = errorData.error || 'Failed to add patient';
+                if (errorData.details) errorMessage += `\nDetails: ${errorData.details}`;
+                if (errorData.hint) errorMessage += `\nHint: ${errorData.hint}`;
+                throw new Error(errorMessage);
             }
         } catch (error) {
             console.error('Error adding patient:', error);
