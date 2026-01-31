@@ -1,6 +1,10 @@
 {
     "rewrites": [
         {
+            "source": "/api/(.*)",
+            "destination": "https://hospital-management-system-backend-one.vercel.app/api/$1"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }
