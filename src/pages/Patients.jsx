@@ -121,7 +121,8 @@ const Patients = () => {
             const { error: dbError } = await supabase
                 .from('medical_records')
                 .insert([{
-                    patient_email: selectedPatient.email, // Ensure patient has email
+                    patient_id: selectedPatient.id, // Ensure patient_id is included
+                    patient_email: selectedPatient.email,
                     doctor_name: uploadData.doctor_name,
                     record_type: uploadData.record_type,
                     record_url: publicUrl
