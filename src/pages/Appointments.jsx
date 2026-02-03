@@ -27,6 +27,13 @@ const Appointments = () => {
             const doctorsData = await doctorsRes.json();
             const patientsData = await patientsRes.json();
 
+            console.log('Doctor Appointments Debug:', {
+                user: user?.email,
+                role: user?.user_metadata?.role,
+                totalAppointments: appointmentsData?.length,
+                totalDoctors: doctorsData?.length
+            });
+
             if (Array.isArray(patientsData)) setPatients(patientsData);
 
             if (Array.isArray(appointmentsData)) {
@@ -47,6 +54,7 @@ const Appointments = () => {
                         setAppointments(myAppointments);
                     } else {
                         // Fallback: If we can't identify the doctor, show empty or all? (Showing all for now for safety)
+                        console.warn('No filter name found, showing all appointments');
                         setAppointments(appointmentsData);
                     }
                 } else {
