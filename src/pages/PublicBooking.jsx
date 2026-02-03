@@ -22,7 +22,7 @@ const PublicBooking = () => {
     });
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/api/doctors`)
+        fetch('/api/doctors')
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data)) setDoctors(data);
@@ -113,31 +113,33 @@ const PublicBooking = () => {
         <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark)', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem' }}>
 
             {/* Header */}
-            <div style={{ marginBottom: '2rem', textAlign: 'center', position: 'relative', width: '100%', maxWidth: '600px' }}>
-                <button
-                    onClick={() => navigate('/')}
-                    style={{
-                        position: 'absolute',
-                        left: 0,
-                        top: 0,
-                        background: 'none',
-                        border: '1px solid var(--border)',
-                        borderRadius: '0.5rem',
-                        padding: '0.5rem 1rem',
-                        color: 'var(--text-primary)',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem'
-                    }}
-                >
-                    ← Back
-                </button>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', color: 'var(--primary)', marginBottom: '1rem' }}>
-                    <Activity size={40} />
-                    <h1 style={{ fontSize: '2rem', margin: 0, color: 'white' }}>MedCare Portal</h1>
+            <div style={{ marginBottom: '2rem', width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', marginBottom: '1rem' }}>
+                    <button
+                        onClick={() => navigate('/')}
+                        style={{
+                            background: 'none',
+                            border: '1px solid var(--border)',
+                            borderRadius: '0.5rem',
+                            padding: '0.5rem 1rem',
+                            color: 'var(--text-primary)',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem'
+                        }}
+                    >
+                        ← Back
+                    </button>
                 </div>
-                <p style={{ color: 'var(--text-secondary)' }}>Book an appointment with our specialists instantly</p>
+
+                <div style={{ textAlign: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', color: 'var(--primary)', marginBottom: '0.5rem' }}>
+                        <Activity size={40} />
+                        <h1 style={{ fontSize: '2rem', margin: 0, color: 'white' }}>MedCare Portal</h1>
+                    </div>
+                    <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Book an appointment with our specialists instantly</p>
+                </div>
             </div>
 
             {/* Form Card */}
@@ -190,7 +192,17 @@ const PublicBooking = () => {
                     {/* Appointment Section */}
                     <div>
                         <dt style={{ color: 'var(--text-secondary)', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Preferred Date & Time</dt>
-                        <input name="appointment_date" type="datetime-local" value={formData.appointment_date} onChange={handleChange} required style={{ ...inputStyle, width: '100%' }} />
+                        <div style={{ position: 'relative' }}>
+                            <Calendar size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)', pointerEvents: 'none' }} />
+                            <input
+                                name="appointment_date"
+                                type="datetime-local"
+                                value={formData.appointment_date}
+                                onChange={handleChange}
+                                required
+                                style={{ ...inputStyle, width: '100%', paddingLeft: '3rem' }}
+                            />
+                        </div>
 
                         <textarea
                             name="reason"
