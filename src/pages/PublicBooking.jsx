@@ -113,7 +113,26 @@ const PublicBooking = () => {
         <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark)', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem' }}>
 
             {/* Header */}
-            <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+            <div style={{ marginBottom: '2rem', textAlign: 'center', position: 'relative', width: '100%', maxWidth: '600px' }}>
+                <button
+                    onClick={() => navigate('/')}
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        background: 'none',
+                        border: '1px solid var(--border)',
+                        borderRadius: '0.5rem',
+                        padding: '0.5rem 1rem',
+                        color: 'var(--text-primary)',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem'
+                    }}
+                >
+                    ← Back
+                </button>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', color: 'var(--primary)', marginBottom: '1rem' }}>
                     <Activity size={40} />
                     <h1 style={{ fontSize: '2rem', margin: 0, color: 'white' }}>MedCare Portal</h1>
