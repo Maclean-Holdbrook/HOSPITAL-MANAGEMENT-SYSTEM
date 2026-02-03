@@ -6,11 +6,12 @@ import { useNavigate } from 'react-router-dom';
 const PatientDashboard = () => {
     const navigate = useNavigate();
     const [records, setRecords] = useState([]);
+    const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [userEmail, setUserEmail] = useState('');
 
     useEffect(() => {
-        const fetchRecords = async () => {
+        const fetchData = async () => {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) {
                 navigate('/login');
@@ -18,19 +19,35 @@ const PatientDashboard = () => {
             }
             setUserEmail(user.email);
 
-            // Fetch Medical Records (Explicitly filter by email)
-            const { data, error } = await supabase
+            // Fetch Medical Records
+            const { data: recordsData, error: recordsError } = await supabase
                 .from('medical_records')
                 .select('*')
                 .eq('patient_email', user.email)
                 .order('created_at', { ascending: false });
 
-            if (error) console.error('Error fetching records:', error);
-            else setRecords(data || []);
+            if (recordsError) console.error('Error fetching records:', recordsError);
+            else setRecords(recordsData || []);
+
+            // Fetch Appointments from API
+            try {
+                const res = await fetch('/api/appointments');
+                const appointmentsData = await res.json();
+
+                if (Array.isArray(appointmentsData)) {
+                    // Filter appointments for this patient by email
+                    const myAppointments = appointmentsData.filter(apt =>
+                        apt.patients && apt.patients.email === user.email
+                    );
+                    setAppointments(myAppointments);
+                }
+            } catch (error) {
+                console.error('Error fetching appointments:', error);
+            }
 
             setLoading(false);
         };
-        fetchRecords();
+        fetchData();
     }, [navigate]);
 
     const handleLogout = async () => {
@@ -85,6 +102,54 @@ const PatientDashboard = () => {
                                         >
                                             <Download size={18} /> View
                                         </a>
+                                    </li>
+                                ))}
+                            </ul>
+                    )}
+                </div>
+
+                {/* My Appointments Section */}
+                <div style={{ backgroundColor: 'var(--bg-card)', padding: '2rem', borderRadius: '1rem', border: '1px solid var(--border)' }}>
+                    <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: 0 }}>
+                        <Calendar className="text-primary" /> My Appointments
+                    </h2>
+
+                    {loading ? <p>Loading appointments...</p> : (
+                        appointments.length === 0 ?
+                            <p style={{ color: 'var(--text-secondary)' }}>No appointments scheduled.</p> :
+                            <ul style={{ listStyle: 'none', padding: 0 }}>
+                                {appointments.map(apt => (
+                                    <li key={apt.id} style={{
+                                        padding: '1rem',
+                                        borderBottom: '1px solid var(--border)',
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'flex-start',
+                                        flexDirection: 'column',
+                                        gap: '0.5rem'
+                                    }}>
+                                        <div style={{ width: '100%' }}>
+                                            <div style={{ fontWeight: '500', marginBottom: '0.25rem' }}>
+                                                {apt.doctor_name || 'Doctor TBA'}
+                                            </div>
+                                            <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                                                📅 {new Date(apt.appointment_date).toLocaleDateString()} at {new Date(apt.appointment_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </div>
+                                            <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
+                                                {apt.reason}
+                                            </div>
+                                            <span style={{
+                                                display: 'inline-block',
+                                                marginTop: '0.5rem',
+                                                padding: '0.25rem 0.5rem',
+                                                borderRadius: '999px',
+                                                fontSize: '0.75rem',
+                                                backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                                                color: '#60a5fa'
+                                            }}>
+                                                {apt.status || 'Scheduled'}
+                                            </span>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
