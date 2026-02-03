@@ -53,6 +53,14 @@ const Layout = () => {
                         <Users size={20} />
                         Patients
                     </NavLink>
+                    <NavLink
+                        to="/admin/appointments"
+                        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+                        onClick={closeSidebar}
+                    >
+                        <Calendar size={20} />
+                        Appointments
+                    </NavLink>
 
                 </nav>
 

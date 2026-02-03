@@ -104,7 +104,7 @@ const Appointments = () => {
                                                 <Calendar size={16} className="text-secondary" />
                                                 {new Date(apt.appointment_date).toLocaleDateString()}
                                                 <Clock size={16} className="text-secondary" style={{ marginLeft: '0.5rem' }} />
-                                                {new Date(apt.appointment_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                {new Date(apt.appointment_date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
                                             </div>
                                         </td>
                                         <td style={{ padding: '1rem' }}>
